@@ -12,6 +12,7 @@
 
 @property (nonatomic, readonly) float posX;
 @property (nonatomic, readonly) float posY;
+@property (nonatomic, readwrite) int frameCount;
 
 -(void)update: (CFTimeInterval) currentTime;
 

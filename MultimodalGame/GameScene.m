@@ -92,6 +92,7 @@
 -(void)didFinishUpdate
 {
     [self centerNode:_crosshair];
+    camera.frameCount++;
 }
 
 -(void) centerNode: (SKNode *)node

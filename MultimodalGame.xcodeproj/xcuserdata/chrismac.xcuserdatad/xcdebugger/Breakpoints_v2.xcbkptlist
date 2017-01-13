@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MultimodalGame/GameEntities/Camera.m"
-            timestampString = "505849410.896775"
+            timestampString = "506043099.326297"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "59"
-            endingLineNumber = "59"
+            startingLineNumber = "66"
+            endingLineNumber = "66"
             landmarkName = "-update:"
             landmarkType = "7">
          </BreakpointContent>

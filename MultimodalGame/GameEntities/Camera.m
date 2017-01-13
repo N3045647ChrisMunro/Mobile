@@ -22,6 +22,9 @@
     float width;
     float height;
 
+    float restingGyroXpos;
+    float gyroXdifference;
+    
 }
 @end
 
@@ -34,6 +37,10 @@
     
     _posX = 0;
     _posY = 0;
+    _frameCount = 120;
+    
+    restingGyroXpos = 0; //This will be updated every 2 seconds (120frames)
+    gyroXdifference = 0; //This will be the difference between restingGyroXpos - GyroXpos (Current gyro x value)
     
     width = [UIScreen mainScreen].bounds.size.width;
     height = [UIScreen mainScreen].bounds.size.height;
@@ -41,7 +48,7 @@
     // Set up the Coremotion manager
     self.motionManager = [[CMMotionManager alloc] init];
     [_motionManager startDeviceMotionUpdates];
-    [_motionManager setDeviceMotionUpdateInterval:1.0/30.0];
+    [_motionManager setDeviceMotionUpdateInterval:1.0/60.0];
     self.deviceMotion = _motionManager.deviceMotion;
     
     if([_motionManager isAccelerometerAvailable] == YES){
@@ -73,11 +80,19 @@
     gyroY = gyroY * (180 / M_PI);
     gyroZ = gyroZ * (180 / M_PI);
     
+    if(_frameCount > 120){
+        NSLog(@"Hello World");
+        restingGyroXpos = gyroX;
+        _frameCount = 0;
+    }
+    
+    //NSLog(@"rest GyroX: %f", restingGyroXpos);
+    
     // Move the Camera node in relation to the accelerometer data
     _posX = _posX + (accelY * width * 0.25);
     _posY = _posY + (-accelX * height * 0.25);
     
-    NSLog(@"GyroX: %f", currentTime);
+    //NSLog(@"GyroX: %f", gyroX);
     
     // Speed up the camera movement with gyroscope assist (tilt)
     if(gyroZ > 20){
@@ -87,6 +102,14 @@
     if(gyroZ < -20){
         //NSLog(@"Speed Up Right");
         _posX -= 7.5;
+    }
+    gyroXdifference = gyroX - restingGyroXpos;
+    NSLog(@"Diff: %f", gyroXdifference);
+    if(gyroXdifference > 10){
+        _posY -= 7.5;
+    }
+    if(gyroXdifference < -10){
+        _posY += 7.5;
     }
     
     [self limitCameraToBounds];
