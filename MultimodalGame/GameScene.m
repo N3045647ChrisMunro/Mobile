@@ -11,11 +11,12 @@
 
 #import "Asteriod.h"
 #import "Camera.h"
+#import "AsteriodSpawner.h"
 
 @interface GameScene()
     @property (nonatomic) SKSpriteNode *crosshair;
     @property (nonatomic) SKSpriteNode *gameBG;
-    @property (nonatomic) NSMutableArray *asteriodsArray;
+    @property (nonatomic) AsteriodSpawner *asteriodsSpawner;
     @property (strong, nonatomic) CMMotionManager *motionManager;
     @property (strong, nonatomic) CMDeviceMotion *deviceMotion;
 
@@ -53,7 +54,6 @@
     self.gameBG.anchorPoint = CGPointMake(0.5, 0.5);
     [camera addChild:_gameBG];
     
-    
     // Setup the crosshair
     self.crosshair = [SKSpriteNode spriteNodeWithImageNamed:@"Crosshair"];
     self.crosshair.anchorPoint = CGPointMake(0.5, 0.5);
@@ -62,6 +62,14 @@
     [camera addChild:_crosshair];
     
     // Set up the Asteriods
+    _asteriodsSpawner = [AsteriodSpawner node];
+    
+    [_asteriodsSpawner createAsteriodArray:5];
+    _asteriodsSpawner.position = CGPointMake(0, 0);
+    [_asteriodsSpawner setActive:true];
+    
+    [camera addChild:_asteriodsSpawner];
+    /*
     asteriod = [Asteriod node];
     
     [asteriod setZ:-0.100];
@@ -69,7 +77,7 @@
     asteriod.position = CGPointMake(0, 0);
     [asteriod setActive:true];
     [camera addChild:asteriod];
-    
+    */
 }
 
 
@@ -80,19 +88,16 @@
     
     // Update the Game Entities
     [camera update:currentTime];
-    [asteriod update];
+    //[asteriod update];
+    [_asteriodsSpawner update];
     
-    
-    if([asteriod z] > 0.5){
-        [asteriod setActive:false];
-        [asteriod removeFromParent];
-    }
 }
 
 -(void)didFinishUpdate
 {
     [self centerNode:_crosshair];
     camera.frameCount++;
+    _asteriodsSpawner.frameCount++;
 }
 
 -(void) centerNode: (SKNode *)node

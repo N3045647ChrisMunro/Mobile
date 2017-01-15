@@ -12,7 +12,7 @@
 
 @interface Asteriod : SKNode
 
-@property (nonatomic, readwrite) float z;
+@property (nonatomic, readwrite, getter=getZ) float z;
 @property (nonatomic, readwrite, getter=isActive) bool active;
 
 -(void)update;

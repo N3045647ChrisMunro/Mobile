@@ -21,6 +21,7 @@
 		39A71FA61DFC474500A0B869 /* Asteriod.m in Sources */ = {isa = PBXBuildFile; fileRef = 39A71FA51DFC474500A0B869 /* Asteriod.m */; };
 		8B42CEB31E1A77FD0075D824 /* MenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B42CEB21E1A77FD0075D824 /* MenuViewController.m */; };
 		8B42CEB61E268F370075D824 /* Camera.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B42CEB51E268F370075D824 /* Camera.m */; };
+		8B42CEB91E2A7E810075D824 /* AsteriodSpawner.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B42CEB81E2A7E810075D824 /* AsteriodSpawner.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +68,8 @@
 		8B42CEB21E1A77FD0075D824 /* MenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuViewController.m; sourceTree = "<group>"; };
 		8B42CEB41E268F370075D824 /* Camera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Camera.h; path = GameEntities/Camera.h; sourceTree = "<group>"; };
 		8B42CEB51E268F370075D824 /* Camera.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Camera.m; path = GameEntities/Camera.m; sourceTree = "<group>"; };
+		8B42CEB71E2A7E810075D824 /* AsteriodSpawner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AsteriodSpawner.h; path = GameEntities/AsteriodSpawner.h; sourceTree = "<group>"; };
+		8B42CEB81E2A7E810075D824 /* AsteriodSpawner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AsteriodSpawner.m; path = GameEntities/AsteriodSpawner.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,6 +138,8 @@
 				39A71FA41DFC474500A0B869 /* Asteriod.h */,
 				8B42CEB41E268F370075D824 /* Camera.h */,
 				8B42CEB51E268F370075D824 /* Camera.m */,
+				8B42CEB71E2A7E810075D824 /* AsteriodSpawner.h */,
+				8B42CEB81E2A7E810075D824 /* AsteriodSpawner.m */,
 				39A71FA51DFC474500A0B869 /* Asteriod.m */,
 			);
 			path = MultimodalGame;
@@ -309,6 +314,7 @@
 				395A06DE1DEC63F700876936 /* GameScene.m in Sources */,
 				39A71FA61DFC474500A0B869 /* Asteriod.m in Sources */,
 				395A06D41DEC63F600876936 /* main.m in Sources */,
+				8B42CEB91E2A7E810075D824 /* AsteriodSpawner.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

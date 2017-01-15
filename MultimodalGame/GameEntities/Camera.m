@@ -39,7 +39,7 @@
     _posY = 0;
     _frameCount = 120;
     
-    restingGyroXpos = 0; //This will be updated every 2 seconds (120frames)
+    restingGyroXpos = 0; //This will be updated every 3 seconds (180frames)
     gyroXdifference = 0; //This will be the difference between restingGyroXpos - GyroXpos (Current gyro x value)
     
     width = [UIScreen mainScreen].bounds.size.width;
@@ -57,9 +57,7 @@
     else{
         NSLog(@"NOT AVAILABLE");
     }
-    
-    
-    
+
     return self;
 }
 
@@ -80,19 +78,16 @@
     gyroY = gyroY * (180 / M_PI);
     gyroZ = gyroZ * (180 / M_PI);
     
-    if(_frameCount > 120){
-        NSLog(@"Hello World");
+    if(_frameCount > 180){
         restingGyroXpos = gyroX;
         _frameCount = 0;
     }
     
-    //NSLog(@"rest GyroX: %f", restingGyroXpos);
+    //NSLog(@"GyroX: %f GyroY: %f GyroZ: %f", gyroX, gyroY, gyroZ);
     
     // Move the Camera node in relation to the accelerometer data
     _posX = _posX + (accelY * width * 0.25);
     _posY = _posY + (-accelX * height * 0.25);
-    
-    //NSLog(@"GyroX: %f", gyroX);
     
     // Speed up the camera movement with gyroscope assist (tilt)
     if(gyroZ > 20){
@@ -104,7 +99,6 @@
         _posX -= 7.5;
     }
     gyroXdifference = gyroX - restingGyroXpos;
-    NSLog(@"Diff: %f", gyroXdifference);
     if(gyroXdifference > 10){
         _posY -= 7.5;
     }
@@ -112,6 +106,7 @@
         _posY += 7.5;
     }
     
+    [self detectTiltReload:gyroY];
     [self limitCameraToBounds];
     self.position = CGPointMake(_posX, _posY);
 }
@@ -133,6 +128,14 @@
     }
     else if (_posY - (height / 2) <= -800){
         _posY = -800 + (height / 2);
+    }
+    
+}
+
+-(void)detectTiltReload: (float)gyroYval{
+    
+    if(gyroYval > 12.0 || gyroYval < -12.0){
+        NSLog(@"Reload Gun");
     }
     
 }
