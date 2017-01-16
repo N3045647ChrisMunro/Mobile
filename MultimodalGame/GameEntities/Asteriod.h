@@ -15,6 +15,9 @@
 @property (nonatomic, readwrite, getter=getZ) float z;
 @property (nonatomic, readwrite, getter=isActive) bool active;
 
+@property (nonatomic, readwrite) float asteriodSize;
+@property (nonatomic, readwrite) float asteriodRotation;
+
 -(void)update;
 
 @end

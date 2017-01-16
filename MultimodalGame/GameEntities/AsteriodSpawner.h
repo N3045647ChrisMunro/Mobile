@@ -14,6 +14,8 @@
 @property (strong, nonatomic, readwrite) NSMutableArray *asteriods;
 @property (nonatomic, readwrite, getter=isActive, setter=setActive:) bool active;
 @property (nonatomic, readwrite) int frameCount;
+@property (nonatomic, readwrite, getter=isFinishedSpawning) bool finishedSpawning;
+@property (nonatomic, readwrite) bool reset;
 
 
 -(void) createAsteriodArray: (int)asteriodCount;

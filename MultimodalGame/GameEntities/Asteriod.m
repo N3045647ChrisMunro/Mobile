@@ -31,6 +31,8 @@
     }
     
     _active = false;
+    _asteriodSize = 0;
+    _asteriodRotation = 0;
     
     width = [UIScreen mainScreen].bounds.size.width;
     height = [UIScreen mainScreen].bounds.size.height;
@@ -51,12 +53,11 @@
     
     if(_active == true){
     
-        x += 0.25;
-        y += 0.25;
-        asteriod.size = CGSizeMake(x, y);
+        _asteriodSize += 0.25;
+        asteriod.size = CGSizeMake(_asteriodSize, _asteriodSize);
     
-        rotation += rotationIncrement;
-        asteriod.zRotation = rotation;
+        _asteriodRotation += rotationIncrement;
+        asteriod.zRotation = _asteriodRotation;
 
         
         //Move the asteriod

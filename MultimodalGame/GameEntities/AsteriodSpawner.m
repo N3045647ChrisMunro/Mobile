@@ -30,6 +30,9 @@
     _asteriods = [[NSMutableArray alloc] init];
     array = [NSMutableArray array];
     
+    _finishedSpawning = false;
+    _reset = true;
+    
     return self;
 }
 
@@ -51,7 +54,7 @@
         
         [self.asteriods addObject:asteriod];
     
-        [self addChild:_asteriods[i]];
+        //[self addChild:_asteriods[i]];
     }
     
     size = asteriodCount;
@@ -62,11 +65,19 @@
     
     if(idx > size - 1){
         idx = 0;
+        //_finishedSpawning = true;
     }
     
-    if(_active == true){
+    if(_reset == true){
         
         if(_frameCount > 120){
+            
+            
+            [_asteriods[idx] setAsteriodRotation:0];
+            [_asteriods[idx] setAsteriodSize:10];
+            
+            [self addChild:_asteriods[idx]];
+            
             
             float randZValue = arc4random() % 150 + 40;
             randZValue = randZValue / 1000;
@@ -79,18 +90,52 @@
 
             idx++;
             _frameCount = 0;
+            
+            if(idx >= size){
+                _reset = false;
+                idx = 0;
+                _frameCount = 0;
+            }
+            
         }
+
         
+    }
+    if(_active == true){
+    
+        for(unsigned int i = 0; i < size; i++){
+            
+            id tempAsteriod = _asteriods[i];
+            
+            [tempAsteriod update];
+            
+            if([tempAsteriod getZ] > 0.5){
+                
+                [tempAsteriod setActive:false];
+                [tempAsteriod removeFromParent];
+                
+                if(i == size - 1){
+                    _finishedSpawning = true;
+                }
+                
+            }
+            
+        }
+        /*
         for(id element in _asteriods){
 
             [element update];
             
             if([element getZ] > 0.5){
                 [element setActive:false];
+                if([element lastIndex] == size){
+                    _finishedSpawning = true;
+                }
                 [element removeFromParent];
+                
             }
         }
-        
+        */
     }
     
 }

@@ -10,8 +10,8 @@
 
 @interface Camera : SKNode
 
-@property (nonatomic, readonly) float posX;
-@property (nonatomic, readonly) float posY;
+@property (nonatomic, readwrite) float posX;
+@property (nonatomic, readwrite) float posY;
 @property (nonatomic, readwrite) int frameCount;
 
 -(void)update: (CFTimeInterval) currentTime;

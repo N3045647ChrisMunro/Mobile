@@ -67,17 +67,9 @@
     [_asteriodsSpawner createAsteriodArray:5];
     _asteriodsSpawner.position = CGPointMake(0, 0);
     [_asteriodsSpawner setActive:true];
+    [_asteriodsSpawner setReset:true];
     
     [camera addChild:_asteriodsSpawner];
-    /*
-    asteriod = [Asteriod node];
-    
-    [asteriod setZ:-0.100];
-    
-    asteriod.position = CGPointMake(0, 0);
-    [asteriod setActive:true];
-    [camera addChild:asteriod];
-    */
 }
 
 
@@ -98,6 +90,26 @@
     [self centerNode:_crosshair];
     camera.frameCount++;
     _asteriodsSpawner.frameCount++;
+    
+    if([_asteriodsSpawner isFinishedSpawning] == true && [_asteriodsSpawner reset] == false){
+        NSLog(@"Change Spawner Location");
+        
+        //Pick a new spawn Loaction
+        float randX = arc4random() % 2000;
+        randX = randX - 1000;
+        
+        float randY = arc4random() % 1200;
+        randY = randY - 1000;
+        _asteriodsSpawner.position = CGPointMake(randX, randY);
+        NSLog(@"Hello");
+        [_asteriodsSpawner setFinishedSpawning:false];
+        [_asteriodsSpawner setReset:true];
+        
+        NSLog(@"X: %f, Y: %f", randX, randY);
+        camera.posX = randX;
+        camera.posY = randY;
+    }
+    
 }
 
 -(void) centerNode: (SKNode *)node
