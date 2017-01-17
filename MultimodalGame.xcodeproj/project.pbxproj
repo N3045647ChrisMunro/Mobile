@@ -19,6 +19,7 @@
 		395A06F41DEC63F800876936 /* MultimodalGameTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 395A06F31DEC63F800876936 /* MultimodalGameTests.m */; };
 		395A06FF1DEC63F800876936 /* MultimodalGameUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 395A06FE1DEC63F800876936 /* MultimodalGameUITests.m */; };
 		39A71FA61DFC474500A0B869 /* Asteriod.m in Sources */ = {isa = PBXBuildFile; fileRef = 39A71FA51DFC474500A0B869 /* Asteriod.m */; };
+		8B20B4741E2D9AF600029ECD /* Bullet.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B20B4731E2D9AF600029ECD /* Bullet.m */; };
 		8B42CEB31E1A77FD0075D824 /* MenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B42CEB21E1A77FD0075D824 /* MenuViewController.m */; };
 		8B42CEB61E268F370075D824 /* Camera.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B42CEB51E268F370075D824 /* Camera.m */; };
 		8B42CEB91E2A7E810075D824 /* AsteriodSpawner.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B42CEB81E2A7E810075D824 /* AsteriodSpawner.m */; };
@@ -64,6 +65,8 @@
 		395A07001DEC63F800876936 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		39A71FA41DFC474500A0B869 /* Asteriod.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Asteriod.h; path = GameEntities/Asteriod.h; sourceTree = "<group>"; };
 		39A71FA51DFC474500A0B869 /* Asteriod.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Asteriod.m; path = GameEntities/Asteriod.m; sourceTree = "<group>"; };
+		8B20B4721E2D9AF600029ECD /* Bullet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Bullet.h; path = GameEntities/Bullet.h; sourceTree = "<group>"; };
+		8B20B4731E2D9AF600029ECD /* Bullet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Bullet.m; path = GameEntities/Bullet.m; sourceTree = "<group>"; };
 		8B42CEB11E1A77FD0075D824 /* MenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuViewController.h; sourceTree = "<group>"; };
 		8B42CEB21E1A77FD0075D824 /* MenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuViewController.m; sourceTree = "<group>"; };
 		8B42CEB41E268F370075D824 /* Camera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Camera.h; path = GameEntities/Camera.h; sourceTree = "<group>"; };
@@ -126,6 +129,8 @@
 				395A06DA1DEC63F700876936 /* Actions.sks */,
 				395A06DC1DEC63F700876936 /* GameScene.h */,
 				395A06DD1DEC63F700876936 /* GameScene.m */,
+				8B20B4721E2D9AF600029ECD /* Bullet.h */,
+				8B20B4731E2D9AF600029ECD /* Bullet.m */,
 				395A06DF1DEC63F700876936 /* GameViewController.h */,
 				395A06E01DEC63F700876936 /* GameViewController.m */,
 				8B42CEB11E1A77FD0075D824 /* MenuViewController.h */,
@@ -312,6 +317,7 @@
 				8B42CEB31E1A77FD0075D824 /* MenuViewController.m in Sources */,
 				395A06D71DEC63F600876936 /* AppDelegate.m in Sources */,
 				395A06DE1DEC63F700876936 /* GameScene.m in Sources */,
+				8B20B4741E2D9AF600029ECD /* Bullet.m in Sources */,
 				39A71FA61DFC474500A0B869 /* Asteriod.m in Sources */,
 				395A06D41DEC63F600876936 /* main.m in Sources */,
 				8B42CEB91E2A7E810075D824 /* AsteriodSpawner.m in Sources */,

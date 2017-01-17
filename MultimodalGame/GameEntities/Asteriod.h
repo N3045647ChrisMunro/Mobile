@@ -19,5 +19,8 @@
 @property (nonatomic, readwrite) float asteriodRotation;
 
 -(void)update;
+-(CGPoint)getAsteriodPos;
+
+-(void)dealDamage :(int)amount;
 
 @end

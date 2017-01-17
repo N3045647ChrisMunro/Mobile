@@ -12,11 +12,14 @@
 #import "Asteriod.h"
 #import "Camera.h"
 #import "AsteriodSpawner.h"
+#import "Bullet.h"
 
 @interface GameScene()
     @property (nonatomic) SKSpriteNode *crosshair;
     @property (nonatomic) SKSpriteNode *gameBG;
     @property (nonatomic) AsteriodSpawner *asteriodsSpawner;
+    @property (nonatomic) Bullet *bullet;
+    @property (strong, nonatomic) NSMutableArray *bullets;
     @property (strong, nonatomic) CMMotionManager *motionManager;
     @property (strong, nonatomic) CMDeviceMotion *deviceMotion;
 
@@ -29,6 +32,9 @@
     
     float width;
     float height;
+    
+    int bulletIDX;
+    int numOfBullets;
 }
 @end
 
@@ -70,6 +76,24 @@
     [_asteriodsSpawner setReset:true];
     
     [camera addChild:_asteriodsSpawner];
+    
+    //_bullet = [Bullet node];
+    //[camera addChild:_bullet];
+    
+    _bullets = [[NSMutableArray alloc] init];
+    numOfBullets = 10;
+    _bullets = [NSMutableArray arrayWithCapacity:numOfBullets];
+    
+    for(unsigned int i = 0; i < numOfBullets; i++){
+        
+        Bullet *tempBullet = [Bullet node];
+        _bullets[i] = tempBullet;
+        [camera addChild:_bullets[i]];
+        
+    }
+    
+    bulletIDX = 0;
+    
 }
 
 
@@ -83,6 +107,51 @@
     //[asteriod update];
     [_asteriodsSpawner update];
     
+    //Update bullets
+    for(id b in _bullets){
+        
+        [b update];
+        
+    }
+    
+    //Check to see if a bullet 'hit' an asteriod;
+    for(unsigned int i = 0; i < numOfBullets; i++){
+        
+        Bullet *tempBullet = _bullets[i];
+        if([tempBullet isActive] == true){
+            
+            NSMutableArray *tempArray = [_asteriodsSpawner asteriods];
+            NSUInteger count = [tempArray count];
+            for(unsigned int j = 0; j < count; j++){
+                
+                if([tempArray[j] isActive] == true){
+                    
+                    float t_x = [tempArray[j] getAsteriodPos].x;
+                    float t_y = [tempArray[j] getAsteriodPos].y;
+                    
+                    int dx = fabs(t_x - tempBullet.position.x);
+                    int dy = fabs(t_y - tempBullet.position.y);
+                    
+                    if(dx < 75 && dy < 75){
+                        
+                        //[_asteriodsSpawner ]
+                        NSLog(@"hit Asteriod");
+                        
+                        //Apply Damage to asteriod
+                        [[_asteriodsSpawner asteriods][j] dealDamage:5];
+                        
+                        //Remove bullet
+                        [_bullets[i] setActive:false];
+                    }
+                    
+                }
+                
+            }
+            
+        }
+        
+    }
+    
 }
 
 -(void)didFinishUpdate
@@ -92,7 +161,6 @@
     _asteriodsSpawner.frameCount++;
     
     if([_asteriodsSpawner isFinishedSpawning] == true && [_asteriodsSpawner reset] == false){
-        NSLog(@"Change Spawner Location");
         
         //Pick a new spawn Loaction
         float randX = arc4random() % 2000;
@@ -101,13 +169,29 @@
         float randY = arc4random() % 1200;
         randY = randY - 1000;
         _asteriodsSpawner.position = CGPointMake(randX, randY);
-        NSLog(@"Hello");
         [_asteriodsSpawner setFinishedSpawning:false];
         [_asteriodsSpawner setReset:true];
         
-        NSLog(@"X: %f, Y: %f", randX, randY);
+        //NSLog(@"X: %f, Y: %f", randX, randY);
         camera.posX = randX;
         camera.posY = randY;
+    }
+    
+}
+
+-(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+
+    const float xPos = camera.posX;
+    const float yPos = camera.posY - 100;
+    
+    CGPoint startPos = CGPointMake(xPos, yPos);
+    
+    //find the next avaible bullet in the array, and shoot it
+    for(unsigned int i = 0; i < numOfBullets; i++){
+        if([_bullets[i] isActive] == false){
+            [_bullets[i] shoot:startPos targetPos:_crosshair.position];
+            break;
+        }
     }
     
 }

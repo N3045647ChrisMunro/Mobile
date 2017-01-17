@@ -15,6 +15,8 @@
     
     float x, y, rotation, rotationIncrement;
     
+    int health;
+    
 }
 @end
 
@@ -33,6 +35,7 @@
     _active = false;
     _asteriodSize = 0;
     _asteriodRotation = 0;
+    health = 10;
     
     width = [UIScreen mainScreen].bounds.size.width;
     height = [UIScreen mainScreen].bounds.size.height;
@@ -76,7 +79,27 @@
         }
        
         asteriod.position = CGPointMake(pos_X, pos_Y);
+        
+        //Check if asteriod has health
+        if(health <= 0){
+            NSLog(@"Asteriod Destroy by Bullet");
+            _active = false;
+            [asteriod removeFromParent];
+        }
+        
     }
+}
+
+-(CGPoint)getAsteriodPos{
+    
+    return asteriod.position;
+    
+}
+
+-(void)dealDamage:(int)amount{
+    
+    health -= amount;
+    
 }
 
 @end

@@ -14,7 +14,6 @@
     int idx;
     int size;
     
-    NSMutableArray *array;
 }
 @end
 
@@ -28,7 +27,6 @@
     idx = 0;
     
     _asteriods = [[NSMutableArray alloc] init];
-    array = [NSMutableArray array];
     
     _finishedSpawning = false;
     _reset = true;
@@ -70,8 +68,7 @@
     
     if(_reset == true){
         
-        if(_frameCount > 120){
-            
+        if(_frameCount > 210){
             
             [_asteriods[idx] setAsteriodRotation:0];
             [_asteriods[idx] setAsteriodSize:10];
@@ -121,21 +118,6 @@
             }
             
         }
-        /*
-        for(id element in _asteriods){
-
-            [element update];
-            
-            if([element getZ] > 0.5){
-                [element setActive:false];
-                if([element lastIndex] == size){
-                    _finishedSpawning = true;
-                }
-                [element removeFromParent];
-                
-            }
-        }
-        */
     }
     
 }
