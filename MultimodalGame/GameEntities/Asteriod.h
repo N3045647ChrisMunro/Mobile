@@ -17,6 +17,7 @@
 
 @property (nonatomic, readwrite) float asteriodSize;
 @property (nonatomic, readwrite) float asteriodRotation;
+@property (nonatomic, readwrite) int health;
 
 -(void)update;
 -(CGPoint)getAsteriodPos;

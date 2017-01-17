@@ -35,7 +35,7 @@
 }
 
 -(void)createAsteriodArray:(int)asteriodCount{
-    
+    [self.asteriods removeAllObjects];
     self.asteriods = [NSMutableArray arrayWithCapacity:asteriodCount];
     
     float x = self.position.x;
@@ -43,14 +43,14 @@
 
     for(unsigned int i = 0; i < asteriodCount; i++){
 
-        asteriod = [Asteriod node];
+        Asteriod *tempAsteriod = [Asteriod node];
         
         x = x + arc4random() % 10;
         y = y + arc4random() % 10;
         
-        asteriod.position = CGPointMake(x, y);
+        tempAsteriod.position = CGPointMake(x, y);
         
-        [self.asteriods addObject:asteriod];
+        [self.asteriods addObject:tempAsteriod];
     
         //[self addChild:_asteriods[i]];
     }
@@ -95,7 +95,6 @@
             }
             
         }
-
         
     }
     if(_active == true){
@@ -114,7 +113,12 @@
                 if(i == size - 1){
                     _finishedSpawning = true;
                 }
-                
+            }
+            
+            //Check if asteriod has health
+            if([tempAsteriod health] <= 0){
+                [tempAsteriod setActive:false];
+                //[tempAsteriod removeFromParent];
             }
             
         }

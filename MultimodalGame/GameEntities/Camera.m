@@ -37,7 +37,7 @@
     
     _posX = 0;
     _posY = 0;
-    _frameCount = 120;
+    _frameCount = 280;
     
     restingGyroXpos = 0; //This will be updated every 3 seconds (180frames)
     gyroXdifference = 0; //This will be the difference between restingGyroXpos - GyroXpos (Current gyro x value)
@@ -78,7 +78,7 @@
     gyroY = gyroY * (180 / M_PI);
     gyroZ = gyroZ * (180 / M_PI);
     
-    if(_frameCount > 180){
+    if(_frameCount > 300){
         restingGyroXpos = gyroX;
         _frameCount = 0;
     }
@@ -99,10 +99,10 @@
         _posX -= 7.5;
     }
     gyroXdifference = gyroX - restingGyroXpos;
-    if(gyroXdifference > 10){
+    if(gyroXdifference > 20){
         _posY -= 7.5;
     }
-    if(gyroXdifference < -10){
+    if(gyroXdifference < -20){
         _posY += 7.5;
     }
     

@@ -168,6 +168,10 @@
         
         float randY = arc4random() % 1200;
         randY = randY - 1000;
+        
+        [[_asteriodsSpawner asteriods] removeAllObjects];
+        [_asteriodsSpawner createAsteriodArray:5];
+        
         _asteriodsSpawner.position = CGPointMake(randX, randY);
         [_asteriodsSpawner setFinishedSpawning:false];
         [_asteriodsSpawner setReset:true];
