@@ -24,7 +24,7 @@
     if(self == [super init]){
         //Do initization...
         
-        asteriod = [SKSpriteNode spriteNodeWithImageNamed:@"RedAsteroid"];
+        asteriod = [SKSpriteNode spriteNodeWithImageNamed:@"RedAsteriod"];
         
         [self addChild:asteriod];
         

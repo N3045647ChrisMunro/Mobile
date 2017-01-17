@@ -115,19 +115,19 @@
 -(void) limitCameraToBounds{
     
     //Check Horizonal bounds
-    if(_posX + (width / 2) >= 1260){
-        _posX = 1260 - (width / 2);
+    if(_posX + (width / 2) >= 750){
+        _posX = 750 - (width / 2);
     }
-    else if (_posX - (width / 2) <= -1260){
-        _posX = -1260 + (width / 2);
+    else if (_posX - (width / 2) <= -750){
+        _posX = -750 + (width / 2);
     }
     
     //Check Vertical bounds
-    if(_posY + (height /2) >= 800){
-        _posY = 800 - (height / 2);
+    if(_posY + (height /2) >= 458){
+        _posY = 458 - (height / 2);
     }
-    else if (_posY - (height / 2) <= -800){
-        _posY = -800 + (height / 2);
+    else if (_posY - (height / 2) <= -458){
+        _posY = -458 + (height / 2);
     }
     
 }
