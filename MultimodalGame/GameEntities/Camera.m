@@ -96,7 +96,6 @@
     float boundsRight = _posX + width / 2;
     float boundsLeft = _posX - width / 2;
     const int padding = 40;
-    NSLog(@"X: %f", boundsRight);
     
     if(boundsRight >= width - padding){
         _posX = 290;

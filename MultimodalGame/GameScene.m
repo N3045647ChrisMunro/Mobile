@@ -8,6 +8,7 @@
 
 #import "GameScene.h"
 #import <CoreMotion/CoreMotion.h>
+#import "GameViewController.h"
 
 #import "Asteriod.h"
 #import "Camera.h"
@@ -20,6 +21,7 @@
     @property (nonatomic) AsteriodSpawner *asteriodsSpawner;
     @property (nonatomic) Bullet *bullet;
     @property (strong, nonatomic) NSMutableArray *bullets;
+    @property (strong, nonatomic) NSMutableArray *asteriodsArray;
     @property (strong, nonatomic) CMMotionManager *motionManager;
     @property (strong, nonatomic) CMDeviceMotion *deviceMotion;
 
@@ -33,8 +35,13 @@
     float width;
     float height;
     
+    int frameCount; //For time controlled events (Spawning)
+    
     int bulletIDX;
     int numOfBullets;
+    
+    int asteriodIDX; //To track the asteriods array to know which asteriod to spawn next
+    int numOfAsteriods;
 }
 @end
 
@@ -53,6 +60,7 @@
     
     width = [UIScreen mainScreen].bounds.size.width;
     height = [UIScreen mainScreen].bounds.size.height;
+    frameCount = 0;
     
     // Setup the scene
     self.backgroundColor = [SKColor colorWithRed:0.3 green:0.3 blue:0.3 alpha:1.0];
@@ -61,13 +69,6 @@
     self.gameBG.anchorPoint = CGPointMake(0.5, 0.5);
     self.gameBG.position = CGPointMake(0, height / 2);
     [camera addChild:_gameBG];
-    
-    // Setup the crosshair
-    self.crosshair = [SKSpriteNode spriteNodeWithImageNamed:@"Crosshair"];
-    self.crosshair.anchorPoint = CGPointMake(0.5, 0.5);
-    self.crosshair.position = CGPointMake(0, 0);
-    self.crosshair.name = @"Crosshair";
-    [camera addChild:_crosshair];
     
     // Set up the Asteriods
     _asteriodsSpawner = [AsteriodSpawner node];
@@ -79,9 +80,22 @@
     
     [camera addChild:_asteriodsSpawner];
     
-    //_bullet = [Bullet node];
-    //[camera addChild:_bullet];
+
+    // Create and setup the Asteriods array
+    _asteriodsArray = [[NSMutableArray alloc] init];
+    numOfAsteriods = 25; //Max number of possible asteriods to be 'active' at once
+    _asteriodsArray = [NSMutableArray arrayWithCapacity:numOfAsteriods];
     
+    for(unsigned int i = 0; i < numOfAsteriods; i++){
+        
+        Asteriod *tmpAsteriod = [Asteriod node];
+        _asteriodsArray[i] = tmpAsteriod;
+        [camera addChild:_asteriodsArray[i]];
+        
+    }
+    
+    
+    //Create and setup the Bullets array
     _bullets = [[NSMutableArray alloc] init];
     numOfBullets = 10;
     _bullets = [NSMutableArray arrayWithCapacity:numOfBullets];
@@ -89,17 +103,23 @@
     for(unsigned int i = 0; i < numOfBullets; i++){
         
         Bullet *tempBullet = [Bullet node];
+        [tempBullet setActive:false];
         _bullets[i] = tempBullet;
         [camera addChild:_bullets[i]];
         
     }
-    
     bulletIDX = 0;
+    
+    // Setup the crosshair
+    self.crosshair = [SKSpriteNode spriteNodeWithImageNamed:@"Crosshair"];
+    self.crosshair.anchorPoint = CGPointMake(0.5, 0.5);
+    self.crosshair.position = CGPointMake(0, 0);
+    self.crosshair.name = @"Crosshair";
+    [camera addChild:_crosshair];
+    
     camera.position = CGPointMake(0, 0);
     
 }
-
-
 
 -(void)update:(CFTimeInterval)currentTime {
     // Called before each frame is rendered
@@ -108,12 +128,34 @@
     // Update the Game Entities
     [camera update:currentTime];
     //[asteriod update];
-    [_asteriodsSpawner update];
+    //[_asteriodsSpawner update];
     
     //Update bullets
     for(id b in _bullets){
         
         [b update];
+        
+    }
+    
+    //Update Asteriods
+    for(id a in _asteriodsArray){
+        [a update];
+        
+        if([a getZ] > 0.65){
+            [a setActive:false];
+        }
+        
+    }
+    
+    //the frames are counted, to act as a timer for the game
+    if(frameCount > 210){
+        
+        [_asteriodsArray[asteriodIDX] setActive:true];
+        CGPoint pos = CGPointMake(0, 0);
+        [_asteriodsArray[asteriodIDX] setAsteriodPos:pos];
+        
+        asteriodIDX++;
+        frameCount = 0;
         
     }
     
@@ -123,22 +165,16 @@
         Bullet *tempBullet = _bullets[i];
         if([tempBullet isActive] == true){
             
-            NSMutableArray *tempArray = [_asteriodsSpawner asteriods];
-            NSUInteger count = [tempArray count];
-            for(unsigned int j = 0; j < count; j++){
+            for(unsigned int j = 0; j < numOfAsteriods; j++){
                 
-                if([tempArray[j] isActive] == true){
+                Asteriod *tempAsteriod = _asteriodsArray[j];
+                if([tempAsteriod isActive] == true){
                     
-                    float t_x = [tempArray[j] getAsteriodPos].x;
-                    float t_y = [tempArray[j] getAsteriodPos].y;
+                    CGPoint a = [tempAsteriod getAsteriodPos];
                     
-                    int dx = fabs(t_x - tempBullet.position.x);
-                    int dy = fabs(t_y - tempBullet.position.y);
-                    
-                    if(dx < 75 && dy < 75){
-                        
+                    if([tempBullet containsPoint:a] && [tempAsteriod getZ] > 0.35){
                         //Apply Damage to asteriod
-                        [[_asteriodsSpawner asteriods][j] dealDamage:5];
+                        [_asteriodsArray[j] dealDamage:5];
                         
                         //Remove bullet
                         [_bullets[i] setActive:false];
@@ -157,30 +193,8 @@
 -(void)didFinishUpdate
 {
     [self centerNode:_crosshair];
+    frameCount++;
     camera.frameCount++;
-    _asteriodsSpawner.frameCount++;
-    
-    if([_asteriodsSpawner isFinishedSpawning] == true && [_asteriodsSpawner reset] == false){
-        
-        //Pick a new spawn Loaction
-        float randX = arc4random() % 2000;
-        randX = randX - 1000;
-        
-        float randY = arc4random() % 1200;
-        randY = randY - 1000;
-        
-        [[_asteriodsSpawner asteriods] removeAllObjects];
-        [_asteriodsSpawner createAsteriodArray:5];
-        
-        _asteriodsSpawner.position = CGPointMake(randX, randY);
-        [_asteriodsSpawner setFinishedSpawning:false];
-        [_asteriodsSpawner setReset:true];
-        
-        //NSLog(@"X: %f, Y: %f", randX, randY);
-        camera.posX = randX;
-        camera.posY = randY;
-    }
-    
 }
 
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{

@@ -12,8 +12,10 @@
 
 @property (nonatomic, readwrite, getter=getZ) float z;
 @property (nonatomic, readwrite, getter=isActive) bool active;
-//@property (nonatomic, readwrite) CGPoint targerPos;
 
 -(void) update;
 -(void)shoot:(CGPoint)startPos targetPos:(CGPoint) targetPos;
+
+-(BOOL)containsPoint:(CGPoint)p;
+
 @end

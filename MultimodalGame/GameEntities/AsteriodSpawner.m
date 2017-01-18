@@ -44,8 +44,8 @@
     for(unsigned int i = 0; i < asteriodCount; i++){
 
         Asteriod *tempAsteriod = [Asteriod node];
-        
-        x = x + arc4random() % 10;
+        [tempAsteriod setHealth:10];
+        x = x + arc4random() % 50;
         y = y + arc4random() % 10;
         
         tempAsteriod.position = CGPointMake(x, y);

@@ -9,6 +9,15 @@
 #import "GameViewController.h"
 #import "GameScene.h"
 
+@interface GameViewController()
+
+
+@property (nonatomic) int score;
+@property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
+
+
+@end
+
 @implementation GameViewController
 
 - (void)viewDidLoad {
@@ -33,6 +42,15 @@
 - (BOOL)shouldAutorotate {
     return NO;
 }
+
+-(void)setScore:(int)score{
+    
+    _score = score;
+    self.scoreLabel.text = [NSString stringWithFormat:@"Score: %d", self.score];
+
+}
+
+
 
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {

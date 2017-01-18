@@ -45,7 +45,6 @@
     rotationIncrement = rotationIncrement / 100; // devide by 100 to get a range of 0.01 - 0.05;
     
     asteriod.size = CGSizeMake(x, y);
-    
     return self;
     
 }
@@ -58,9 +57,8 @@
         asteriod.size = CGSizeMake(_asteriodSize, _asteriodSize);
     
         _asteriodRotation += rotationIncrement;
-        asteriod.zRotation = _asteriodRotation;
+        //asteriod.zRotation = _asteriodRotation;
 
-        
         //Move the asteriod
         const float eyePos_ = 150.0;
          
@@ -75,15 +73,25 @@
             x = 100.0;
             y = 100.0;
         }
-       
         asteriod.position = CGPointMake(pos_X, pos_Y);
-        
     }
+    
+    if(_health <= 0){
+        //Move the asteriod out of view, instead of removing from parent
+        asteriod.position = CGPointMake(-2000, 0);
+    }
+    
 }
 
 -(CGPoint)getAsteriodPos{
     
     return asteriod.position;
+    
+}
+
+-(void)setAsteriodPos:(CGPoint)pos{
+    
+    asteriod.position = pos;
     
 }
 

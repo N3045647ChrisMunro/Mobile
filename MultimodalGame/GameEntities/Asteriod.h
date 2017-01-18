@@ -21,6 +21,7 @@
 
 -(void)update;
 -(CGPoint)getAsteriodPos;
+-(void)setAsteriodPos:(CGPoint)pos;
 
 -(void)dealDamage :(int)amount;
 
