@@ -57,7 +57,9 @@
     // Setup the scene
     self.backgroundColor = [SKColor colorWithRed:0.3 green:0.3 blue:0.3 alpha:1.0];
     self.gameBG = [SKSpriteNode spriteNodeWithImageNamed:@"GameBackground"];
+    self.gameBG.size = CGSizeMake(width * 2, height + 50);
     self.gameBG.anchorPoint = CGPointMake(0.5, 0.5);
+    self.gameBG.position = CGPointMake(0, height / 2);
     [camera addChild:_gameBG];
     
     // Setup the crosshair
@@ -93,6 +95,7 @@
     }
     
     bulletIDX = 0;
+    camera.position = CGPointMake(0, 0);
     
 }
 
@@ -133,9 +136,6 @@
                     int dy = fabs(t_y - tempBullet.position.y);
                     
                     if(dx < 75 && dy < 75){
-                        
-                        //[_asteriodsSpawner ]
-                        NSLog(@"hit Asteriod");
                         
                         //Apply Damage to asteriod
                         [[_asteriodsSpawner asteriods][j] dealDamage:5];

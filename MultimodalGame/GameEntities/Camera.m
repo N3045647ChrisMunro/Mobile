@@ -48,7 +48,7 @@
     // Set up the Coremotion manager
     self.motionManager = [[CMMotionManager alloc] init];
     [_motionManager startDeviceMotionUpdates];
-    [_motionManager setDeviceMotionUpdateInterval:1.0/60.0];
+    [_motionManager setDeviceMotionUpdateInterval:1.0/30.0];
     self.deviceMotion = _motionManager.deviceMotion;
     
     if([_motionManager isAccelerometerAvailable] == YES){
@@ -65,14 +65,12 @@
     
     CMDeviceMotion *currentDeviceMotion = _motionManager.deviceMotion;
     
-    float accelX = (float)currentDeviceMotion.userAcceleration.x;
     float accelY = (float)currentDeviceMotion.userAcceleration.y;
-    float accelZ = (float)currentDeviceMotion.userAcceleration.z;
     
     double gyroX = currentDeviceMotion.attitude.roll; // This returns radians
     double gyroY = currentDeviceMotion.attitude.pitch;
     double gyroZ = currentDeviceMotion.attitude.yaw;
-    
+
     // Convert the radians to degrees
     gyroX = gyroX * (180 / M_PI);
     gyroY = gyroY * (180 / M_PI);
@@ -82,31 +80,12 @@
         restingGyroXpos = gyroX;
         _frameCount = 0;
     }
-    
     //NSLog(@"GyroX: %f GyroY: %f GyroZ: %f", gyroX, gyroY, gyroZ);
     
     // Move the Camera node in relation to the accelerometer data
     _posX = _posX + (accelY * width * 0.25);
-    _posY = _posY + (-accelX * height * 0.25);
-    
-    // Speed up the camera movement with gyroscope assist (tilt)
-    if(gyroZ > 20){
-        //NSLog(@"Speed Up Left");
-        _posX += 7.5;
-    }
-    if(gyroZ < -20){
-        //NSLog(@"Speed Up Right");
-        _posX -= 7.5;
-    }
-    gyroXdifference = gyroX - restingGyroXpos;
-    if(gyroXdifference > 20){
-        _posY -= 7.5;
-    }
-    if(gyroXdifference < -20){
-        _posY += 7.5;
-    }
-    
-    [self detectTiltReload:gyroY];
+
+    [self detectTiltReload:gyroX];
     [self limitCameraToBounds];
     self.position = CGPointMake(_posX, _posY);
 }
@@ -114,30 +93,49 @@
 // Limit the camera so it doesnt go beyond the background image
 -(void) limitCameraToBounds{
     
-    //Check Horizonal bounds
-    if(_posX + (width / 2) >= 750){
-        _posX = 750 - (width / 2);
-    }
-    else if (_posX - (width / 2) <= -750){
-        _posX = -750 + (width / 2);
-    }
+    float boundsRight = _posX + width / 2;
+    float boundsLeft = _posX - width / 2;
+    const int padding = 40;
+    NSLog(@"X: %f", boundsRight);
     
-    //Check Vertical bounds
-    if(_posY + (height /2) >= 458){
-        _posY = 458 - (height / 2);
+    if(boundsRight >= width - padding){
+        _posX = 290;
     }
-    else if (_posY - (height / 2) <= -458){
-        _posY = -458 + (height / 2);
+    if(boundsLeft <= -width + padding){
+        _posX = -290;
     }
     
 }
 
--(void)detectTiltReload: (float)gyroYval{
+-(void)detectTiltReload: (float)gyroXval{
     
+    const float midPoint = restingGyroXpos + 45;
+    bool phase1 = false;
+    bool phase2 = false;
+    
+    if(gyroXval > midPoint){
+        
+        //NSLog(@"Midpoint");
+        phase1 = true;
+        
+    }
+    
+    if(gyroXval <= restingGyroXpos && phase1 == true){
+        phase2 = true;
+    }
+    
+    
+    if(phase1 == true && phase2 == true){
+        phase1 = false;
+        phase2 = false;
+        NSLog(@"Tilt Detected");
+    }
+    
+    /*
     if(gyroYval > 12.0 || gyroYval < -12.0){
         NSLog(@"Reload Gun");
     }
-    
+    */
 }
 
 @end
