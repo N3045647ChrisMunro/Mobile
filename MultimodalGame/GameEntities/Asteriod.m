@@ -13,7 +13,7 @@
     SKSpriteNode* asteriod;
     float width, height;
     
-    float x, y, rotation, rotationIncrement;
+    float x, y, rotation, rotationIncrement, maxSize;
     
 }
 @end
@@ -40,6 +40,7 @@
     
     x = 10;
     y = 10;
+    maxSize = 100;
     rotation = 0;
     rotationIncrement = arc4random() % 5 + 1;
     rotationIncrement = rotationIncrement / 100; // devide by 100 to get a range of 0.01 - 0.05;
@@ -55,9 +56,13 @@
     
         _asteriodSize += 0.25;
         asteriod.size = CGSizeMake(_asteriodSize, _asteriodSize);
+        
+        if(asteriod.size.width > maxSize || asteriod.size.height > maxSize){
+            asteriod.size = CGSizeMake(maxSize, maxSize);
+        }
     
         _asteriodRotation += rotationIncrement;
-        //asteriod.zRotation = _asteriodRotation;
+        asteriod.zRotation = _asteriodRotation;
 
         //Move the asteriod
         const float eyePos_ = 150.0;
@@ -66,7 +71,7 @@
          
         const float pos_Y = ((eyePos_ * ([asteriod position].y - (width / 2))) / (eyePos_ + self.z) + (width / 2));
          
-        self.z += 0.001;
+        self.z -= 0.01;
     
     
         if(x > 100.0 && y > 100.0){
@@ -74,11 +79,19 @@
             y = 100.0;
         }
         asteriod.position = CGPointMake(pos_X, pos_Y);
+    }else{
+        //Move the asteriod out of view, instead of removing from parent
+        asteriod.position = CGPointMake(-2000, 0);
+        //Rester the size
+        asteriod.size = CGSizeMake(10, 10);
+        self.z = 0;
     }
     
     if(_health <= 0){
         //Move the asteriod out of view, instead of removing from parent
         asteriod.position = CGPointMake(-2000, 0);
+        //Rester the size
+        asteriod.size = CGSizeMake(10, 10);
     }
     
 }

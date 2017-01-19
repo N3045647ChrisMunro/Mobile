@@ -141,22 +141,33 @@
     for(id a in _asteriodsArray){
         [a update];
         
-        if([a getZ] > 0.65){
-            [a setActive:false];
-        }
+        //if([a getZ] > 0.65){
+        //    [a setActive:false];
+        //}
         
     }
     
     //the frames are counted, to act as a timer for the game
     if(frameCount > 210){
         
+        [_asteriodsArray[asteriodIDX] setHealth:10];
         [_asteriodsArray[asteriodIDX] setActive:true];
-        CGPoint pos = CGPointMake(0, 0);
+        CGPoint pos = CGPointMake(0, _crosshair.position.y);
         [_asteriodsArray[asteriodIDX] setAsteriodPos:pos];
+        
+        float randZ = arc4random() % 300;
+        randZ = randZ / 100;
+        
+        [_asteriodsArray[asteriodIDX] setZ:randZ];
         
         asteriodIDX++;
         frameCount = 0;
         
+    }
+    
+    //Reset the asteriodIDX
+    if(asteriodIDX > numOfAsteriods - 1){
+        asteriodIDX = 0;
     }
     
     //Check to see if a bullet 'hit' an asteriod;
@@ -171,8 +182,8 @@
                 if([tempAsteriod isActive] == true){
                     
                     CGPoint a = [tempAsteriod getAsteriodPos];
-                    
-                    if([tempBullet containsPoint:a] && [tempAsteriod getZ] > 0.35){
+                    //&& [tempAsteriod getZ] > 0.35;
+                    if([tempBullet containsPoint:a]){
                         //Apply Damage to asteriod
                         [_asteriodsArray[j] dealDamage:5];
                         
@@ -204,10 +215,15 @@
     
     CGPoint startPos = CGPointMake(xPos, yPos);
     
+    //Get the position touched relative to the camera node, this will the the
+    //Target position for the bullet
+    UITouch *touch = [touches anyObject];
+    CGPoint touchPos = [touch locationInNode:camera];
+    
     //find the next avaible bullet in the array, and shoot it
     for(unsigned int i = 0; i < numOfBullets; i++){
         if([_bullets[i] isActive] == false){
-            [_bullets[i] shoot:startPos targetPos:_crosshair.position];
+            [_bullets[i] shoot:startPos targetPos:touchPos];
             break;
         }
     }

@@ -60,7 +60,7 @@
     bulletTargetPos = targetPos;
     bullet.position = startPos; // This will be a pos slightly below the bottom of the screen
     
-    SKAction *action = [SKAction moveTo:targetPos duration:1.2];
+    SKAction *action = [SKAction moveTo:targetPos duration:0.5];
     
     [bullet runAction:action];
 }
